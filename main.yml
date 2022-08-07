@@ -1,0 +1,47 @@
+---
+- hosts: pi
+  become: true
+
+  pre_tasks:
+      - name: Ensure apt cache is up to date
+        ansible.builtin.apt:
+            update_cache: true
+            cache_valid_time: 3600
+        when:
+            - ansible_facts.os_family == "Debian"
+
+      - name: Update all packages to their latest version
+        ansible.builtin.apt:
+            name: "*"
+            state: latest
+        when:
+            - ansible_facts.os_family == "Debian"
+
+  tasks:
+      - name: Setup EEPROM
+        ansible.builtin.import_tasks: tasks/rpi-eeprom.yml
+
+      - name: Setup Raspi-Config
+        ansible.builtin.import_tasks: tasks/raspi-config.yml
+
+      - name: Setup POE-HAT
+        ansible.builtin.import_tasks: tasks/poe-hat.yml
+
+      - name: Fix for loosing interfaces
+        ansible.builtin.import_tasks: tasks/loosing_eth_interfaces.yml
+
+      - name: Setup packages
+        ansible.builtin.import_tasks: tasks/packages.yml
+
+  post_tasks:
+      - name: Remove useless packages from the cache
+        ansible.builtin.apt:
+            autoclean: yes
+        when:
+            - ansible_facts.os_family == "Debian"
+
+      - name: Remove dependencies that are no longer required
+        ansible.builtin.apt:
+            autoremove: yes
+        when:
+            - ansible_facts.os_family == "Debian"

@@ -1,0 +1,13 @@
+---
+- name: Install the package raspi-config
+  ansible.builtin.apt:
+      name: raspi-config
+
+- name: Set LOCALE
+  ansible.builtin.command: /usr/bin/raspi-config nonint do_change_locale en_US.UTF-8
+
+- name: Expand rootfs
+  ansible.builtin.command: /usr/bin/raspi-config nonint do_expand_rootfs
+
+- name: Reboot
+  ansible.builtin.reboot:

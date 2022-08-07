@@ -1,0 +1,12 @@
+---
+# For some reason, running docker instances with their virtual interfaces
+# makes the rpi drop inet4 interfaces, this is a fix for that
+- name: Fix for loosing ipv4 interface
+  ansible.builtin.blockinfile:
+      path: /etc/dhcpcd.conf
+      block: |
+          # Workaround for loosing ipv4 interface
+          denyinterfaces veth*
+
+- name: Reboot
+  ansible.builtin.reboot:

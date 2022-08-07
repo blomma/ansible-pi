@@ -1,0 +1,10 @@
+---
+- name: Install the package rpi-eeprom
+  ansible.builtin.apt:
+      name: rpi-eeprom
+
+- name: Update rpi-eeprom
+  ansible.builtin.command: /usr/bin/rpi-eeprom-update -a
+
+- name: Reboot
+  ansible.builtin.reboot:
