@@ -1,0 +1,21 @@
+---
+- name: Turn off built in LED's /boot/config.txt
+  ansible.builtin.blockinfile:
+      path: /boot/config.txt
+      block: |
+          # Turn off PWR LED
+          dtparam=pwr_led_trigger=default-on
+          dtparam=pwr_led_activelow=off
+
+          # Turn off ACT LED
+          dtparam=act_led_trigger=none
+          dtparam=act_led_activelow=off
+
+          # Turn off Ethernet ACT LED
+          dtparam=eth_led0=4
+
+          # Turn off Ethernet LNK LED
+          dtparam=eth_led1=4
+
+- name: Reboot
+  ansible.builtin.reboot:

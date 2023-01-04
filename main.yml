@@ -27,6 +27,9 @@
       - name: Setup POE-HAT
         ansible.builtin.import_tasks: tasks/poe-hat.yml
 
+      - name: Setup LED
+        ansible.builtin.import_tasks: tasks/led.yml
+
       - name: Fix for loosing interfaces
         ansible.builtin.import_tasks: tasks/loosing_eth_interfaces.yml
 
