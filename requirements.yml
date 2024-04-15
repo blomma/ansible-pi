@@ -2,3 +2,6 @@
 collections:
     - ansible.posix
     - community.general
+
+roles:
+    - geerlingguy.security

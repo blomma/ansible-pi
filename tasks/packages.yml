@@ -2,7 +2,6 @@
 - name: Install tmux
   ansible.builtin.apt:
       name: tmux
-
-- name: Install git
-  ansible.builtin.apt:
-      name: git
+# - name: Install git
+#   ansible.builtin.apt:
+#       name: git

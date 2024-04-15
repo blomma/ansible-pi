@@ -1,6 +1,8 @@
 ---
 - hosts: pi
   become: true
+  vars_files:
+      - vars/main.yml
 
   pre_tasks:
       - name: Ensure apt cache is up to date
@@ -24,14 +26,8 @@
       - name: Setup Raspi-Config
         ansible.builtin.import_tasks: tasks/raspi-config.yml
 
-      - name: Setup POE-HAT
-        ansible.builtin.import_tasks: tasks/poe-hat.yml
-
-      - name: Setup LED
-        ansible.builtin.import_tasks: tasks/led.yml
-
-      - name: Fix for loosing interfaces
-        ansible.builtin.import_tasks: tasks/loosing_eth_interfaces.yml
+      - name: Setup boot config
+        ansible.builtin.import_tasks: tasks/boot-config.yml
 
       - name: Setup packages
         ansible.builtin.import_tasks: tasks/packages.yml
@@ -48,3 +44,6 @@
             autoremove: true
         when:
             - ansible_facts.os_family == "Debian"
+
+  roles:
+      - geerlingguy.security
